@@ -1,0 +1,80 @@
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-Thin.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-Thin.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-ExtraLight.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-ExtraLight.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-ExtraLight.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-Light.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-Light.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-Regular.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-Regular.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-Medium.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-Medium.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-SemiBold.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-SemiBold.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-Bold.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-Bold.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-ExtraBold.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-ExtraBold.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "GeistMono";
+  src: url("/static/fonts/GeistMono/GeistMono-Black.woff2") format("woff2"),
+    url("/static/fonts/GeistMono/GeistMono-Black.ttf") format("truetype"),
+    url("/static/fonts/GeistMono/GeistMono-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+}

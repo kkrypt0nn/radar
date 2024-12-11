@@ -1,0 +1,44 @@
+@import "./style/geist.css";
+@import "./style/geist-mono.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  @apply bg-black text-white;
+
+  .markdown {
+    @apply inline;
+    a {
+      @apply text-primary hover:text-primary hover:underline;
+    }
+    p {
+      @apply inline;
+    }
+  }
+
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary-accent to-secondary-accent text-transparent bg-clip-text p-1;
+  }
+}
+
+:root {
+  --color-primary: #4338ca; /* indigo-700 */
+  --color-primary-muted: #3730a3; /* indigo-800 */
+  --color-primary-accent: #4f46e5; /* indigo-600 */
+  --color-secondary: #6d28d9; /* violet-700 */
+  --color-secondary-muted: #5b21b6; /* violet-800 */
+  --color-secondary-accent: #7c3aed; /* violet-600 */
+  --color-text: #fff; /* white */
+  --color-text-muted: #9ca3af; /* gray-400 */
+  --color-background: #000; /* black */
+  --color-background-muted: #6b72801a; /* gray-500/10 */
+  --color-card-background: #6b72801a; /* gray-500/10 */
+  --color-card-border: #ffffff33; /* white/20 */
+  --color-filter-enabled: #4f46e5; /* indigo-600 */
+  --color-filter-disabled: #4b5563; /* gray-600 */
+  --color-code-background: #ffffff1a; /* white/10 */
+  --color-tab-foreground: #4338cacc; /* indigo-700/80 */
+  --color-tab-background: #18181b; /* zinc-900 */
+}
