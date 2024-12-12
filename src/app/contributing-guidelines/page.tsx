@@ -1,6 +1,6 @@
-import InlineCodeblock from "../components/InlineCodeblock";
-import Link from "../components/Link";
-import SEO from "../components/SEO";
+import InlineCodeblock from "@/components/InlineCodeblock";
+import Link from "@/components/Link";
+import SEO from "@/components/SEO";
 
 export default function ContributingGuidelinesRoute() {
   return (

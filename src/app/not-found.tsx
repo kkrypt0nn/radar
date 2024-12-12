@@ -1,10 +1,12 @@
+"use client";
+
+import Button from "@/components/Button";
+import SEO from "@/components/SEO";
 import { AlertCircleIcon, ArrowLeftIcon, HomeIcon } from "lucide-react";
-import { useNavigate } from "react-router";
-import Button from "../components/Button";
-import SEO from "../components/SEO";
+import { useRouter } from "next/navigation";
 
 export default function NotFoundRoute() {
-  let navigate = useNavigate();
+  const router = useRouter();
   return (
     <>
       <SEO
@@ -21,14 +23,14 @@ export default function NotFoundRoute() {
           404 - Signal Lost
         </h1>
         <p className="text-text-muted">
-          We've lost the signal to the page you're looking for. It might have
-          been moved, deleted, or never existed.
+          We&apos;ve lost the signal to the page you&apos;re looking for. It
+          might have been moved, deleted, or never existed.
         </p>
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <Button onClick={() => navigate("/")}>
+          <Button onClick={() => router.push("/")}>
             <HomeIcon size={18} /> Home
           </Button>
-          <Button onClick={() => navigate(-1)}>
+          <Button onClick={() => router.back()}>
             <ArrowLeftIcon size={18} /> Go back
           </Button>
         </div>

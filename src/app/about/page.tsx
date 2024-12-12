@@ -1,6 +1,6 @@
-import Link from "../components/Link";
-import SEO from "../components/SEO";
-import { config } from "../config";
+import Link from "@/components/Link";
+import SEO from "@/components/SEO";
+import { config } from "@/config";
 
 export default function AboutRoute() {
   return (
@@ -24,7 +24,7 @@ export default function AboutRoute() {
           applications.
         </p>
         <p>
-          Whether you're looking for threat intelligence platforms, network
+          Whether you&apos;re looking for threat intelligence platforms, network
           security tools, or cutting-edge AI-powered defenses, this directory
           aims to be your go-to resource in the ever-evolving world of
           cybersecurity.
@@ -57,7 +57,7 @@ export default function AboutRoute() {
           <Link href={config.gitHub.requestNewToolIssueUrl} external>
             issue
           </Link>{" "}
-          on the GitHub's page of this project.
+          on the GitHub&apos;s page of this project.
         </p>
       </section>
       <section className="space-y-6 pb-9 lg:pb-14">

@@ -1,20 +1,23 @@
+"use client";
+
+import Filter from "@/components/Filter";
+import Link from "@/components/Link";
+import LinkTile from "@/components/LinkTile";
+import SEO from "@/components/SEO";
+import { config } from "@/config";
+import { Category, Tool, tools } from "@/data/tools";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
-import { useSearchParams } from "react-router";
-import Filter from "../components/Filter";
-import Link from "../components/Link";
-import LinkTile from "../components/LinkTile";
-import SEO from "../components/SEO";
-import { config } from "../config";
-import { Category, Tool, tools } from "../data/tools";
 
 export default function ToolsRoute() {
-  let uniqueCategories = [
+  const uniqueCategories = [
     "All Tools" as Category,
     ...Array.from(new Set(tools.flatMap((tool: Tool) => tool.categories))).sort(
       (a, b) => a.localeCompare(b)
     ),
   ];
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const categoryParam = searchParams.get("c") as Category;
   const queryParam = searchParams.get("q");
   const [activeCategory, setActiveCategory] = useState<Category | "All Tools">(
@@ -30,6 +33,31 @@ export default function ToolsRoute() {
     )
     .filter((tool: Tool) => tool.name.toLowerCase().includes(searchQuery))
     .sort((a, b) => a.name.localeCompare(b.name));
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const params = new URLSearchParams();
+    if (newValue) {
+      params.set("q", newValue);
+    }
+    if (activeCategory !== "All Tools") {
+      params.set("c", activeCategory);
+    }
+    router.push(`/tools?${params.toString()}`);
+    setSearchQuery(newValue);
+  };
+
+  const handleCategoryClick = (category: Category) => {
+    const params = new URLSearchParams();
+    if (category !== ("All Tools" as Category)) {
+      params.set("c", category);
+    }
+    if (searchQuery) {
+      params.set("q", searchQuery);
+    }
+    router.push(`/tools?${params.toString()}`);
+    setActiveCategory(category);
+  };
 
   return (
     <>
@@ -57,16 +85,7 @@ export default function ToolsRoute() {
           <input
             className="w-72 p-2 bg-background-muted border border-card-border rounded-lg"
             value={searchQuery}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              let newValue = e.target.value;
-              if (newValue === "") {
-                searchParams.delete("q");
-              } else {
-                searchParams.set("q", newValue);
-              }
-              setSearchParams(searchParams);
-              setSearchQuery(newValue);
-            }}
+            onChange={handleSearchChange}
             placeholder="Search..."
           ></input>
         </div>
@@ -74,18 +93,7 @@ export default function ToolsRoute() {
       <section className="flex flex-wrap gap-2 justify-center pb-3 lg:pb-6">
         {uniqueCategories.map((category: Category) => {
           return (
-            <div
-              onClick={(_) => {
-                if (category === ("All Tools" as Category)) {
-                  searchParams.delete("c");
-                } else {
-                  searchParams.set("c", category);
-                }
-                setSearchParams(searchParams);
-                setActiveCategory(category);
-              }}
-              key={category}
-            >
+            <div onClick={() => handleCategoryClick(category)} key={category}>
               <Filter content={category} active={activeCategory === category} />
             </div>
           );
@@ -104,8 +112,8 @@ export default function ToolsRoute() {
         ) : (
           <div className="w-full grid gap-3 md:grid-cols-3 lg:grid-cols-4">
             {filteredTools.map((tool: Tool) => {
-              let toolPath = tool.name.toLowerCase().replace(" ", "-");
-              let toolLowerDate = new Date();
+              const toolPath = tool.name.toLowerCase().replace(" ", "-");
+              const toolLowerDate = new Date();
               toolLowerDate.setDate(
                 toolLowerDate.getDate() - config.newToolLastDays
               );

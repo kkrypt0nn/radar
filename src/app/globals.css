@@ -1,5 +1,5 @@
-@import "./style/geist.css";
-@import "./style/geist-mono.css";
+@import "../style/geist.css";
+@import "../style/geist-mono.css";
 
 @tailwind base;
 @tailwind components;

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import Link from "next/link";
 
 type LinkTileProps = {
   href: string;
@@ -17,11 +17,11 @@ export default function LinkTile({
   dashed,
   children,
 }: LinkTileProps) {
-  let paddingY = size == "lg" ? "4" : "2";
+  const paddingY = size == "lg" ? "4" : "2";
   return (
     <>
-      <NavLink
-        to={href}
+      <Link
+        href={href}
         target={external ? "_blank" : "_self"}
         className={`relative rounded-lg border ${
           dashed ? "border-dashed" : ""
@@ -39,7 +39,7 @@ export default function LinkTile({
             <span className="text-text-muted">New</span>
           </span>
         )}
-      </NavLink>
+      </Link>
     </>
   );
 }

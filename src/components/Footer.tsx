@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import Link from "next/link";
 import { config, FooterItem } from "../config";
 
 export default function Footer() {
@@ -10,13 +10,13 @@ export default function Footer() {
       <nav className="sm:ml-auto flex gap-4 sm:gap-6">
         {config.footerItems.map((item: FooterItem) => {
           return (
-            <NavLink
+            <Link
               key={item.name}
-              to={item.path}
+              href={item.path}
               className="text-xs hover:text-primary"
             >
               {item.name}
-            </NavLink>
+            </Link>
           );
         })}
       </nav>

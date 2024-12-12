@@ -1,3 +1,10 @@
+"use client";
+
+import Card, { CardContent, CardTitle } from "@/components/Card";
+import Filter from "@/components/Filter";
+import InstallationSteps from "@/components/InstallationSteps";
+import SEO from "@/components/SEO";
+import { Category, Tool, tools } from "@/data/tools";
 import {
   faGithub,
   faGitlab,
@@ -6,53 +13,59 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CommandIcon, GlobeIcon, ShieldIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import Markdown from "react-markdown";
 import {
-  createSearchParams,
-  useNavigate,
+  notFound,
   useParams,
+  useRouter,
   useSearchParams,
-} from "react-router";
-import Card, { CardContent, CardTitle } from "../components/Card";
-import Filter from "../components/Filter";
-import InstallationSteps from "../components/InstallationSteps";
-import SEO from "../components/SEO";
-import { Category, Tool, tools } from "../data/tools";
-import NotFoundRoute from "./not-found";
+} from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import Markdown from "react-markdown";
 
+/* eslint-disable react-hooks/rules-of-hooks */
 export default function ToolRoute() {
-  const { name } = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const name = useParams().name;
   const tool: Tool | undefined = tools.find(
     (t: Tool) => t.name.toLowerCase().replace(" ", "-") == name
   );
-  if (tool === undefined) {
-    return <NotFoundRoute />;
+  if (!tool) {
+    return notFound();
   }
 
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [installationPlatform, setInstallationPlatform] = useState<
+    "linux" | "macos" | "windows"
+  >(() => {
+    const platformParam = searchParams.get("p");
+    return platformParam && platformParam in tool.installationSteps
+      ? (platformParam as "linux" | "macos" | "windows")
+      : tool.installationSteps.linux
+      ? "linux"
+      : tool.installationSteps.macos
+      ? "macos"
+      : "windows";
+  });
 
   const [installationSteps, setInstallationSteps] = useState(
-    tool.installationSteps.linux ??
-      tool.installationSteps.macos ??
-      tool.installationSteps.windows
+    tool.installationSteps[installationPlatform]
   );
-  const [installationPlatform, setInstallationPlatform] = useState(
-    installationSteps == tool.installationSteps.linux
-      ? "linux"
-      : installationSteps == tool.installationSteps.macos
-      ? "macos"
-      : installationSteps == tool.installationSteps.windows
-      ? "windows"
-      : ""
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams]
   );
+
   useEffect(() => {
     const platformParam = searchParams.get("p");
-    if (platformParam !== null && platformParam in tool.installationSteps) {
-      setInstallationPlatform(platformParam);
+    if (platformParam && platformParam in tool.installationSteps) {
+      setInstallationPlatform(platformParam as "linux" | "macos" | "windows");
     }
-  }, []);
+  }, [searchParams, tool.installationSteps]);
 
   useEffect(() => {
     setInstallationSteps(
@@ -64,25 +77,21 @@ export default function ToolRoute() {
         ? tool.installationSteps.windows
         : []
     );
-  }, [installationPlatform]);
+  }, [
+    installationPlatform,
+    tool.installationSteps.linux,
+    tool.installationSteps.macos,
+    tool.installationSteps.windows,
+  ]);
 
   const changeInstallationPlatform = (
     platform: "linux" | "macos" | "windows"
   ) => {
-    switch (platform) {
-      case "linux":
-        setInstallationSteps(tool.installationSteps.linux);
-        break;
-      case "macos":
-        setInstallationSteps(tool.installationSteps.macos);
-        break;
-      case "windows":
-        setInstallationSteps(tool.installationSteps.windows);
-        break;
-    }
     setInstallationPlatform(platform);
-    searchParams.set("p", platform);
-    setSearchParams(searchParams);
+    setInstallationSteps(tool.installationSteps[platform]);
+    router.push(`/tools/${name}/?${createQueryString("p", platform)}`, {
+      scroll: false,
+    });
   };
 
   return (
@@ -104,13 +113,8 @@ export default function ToolRoute() {
             return (
               <div
                 key={category}
-                onClick={(_) => {
-                  navigate({
-                    pathname: "/tools",
-                    search: createSearchParams({
-                      c: category,
-                    }).toString(),
-                  });
+                onClick={() => {
+                  router.push(`/tools?c=${encodeURIComponent(category)}`);
                 }}
               >
                 <Filter content={category} />
@@ -167,7 +171,7 @@ export default function ToolRoute() {
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-y-4">
               {tool.keyFeatures.map((keyFeature) => {
                 return (
-                  <div className="flex gap-1">
+                  <div key={keyFeature} className="flex gap-1">
                     <ShieldIcon /> <p key={keyFeature}>{keyFeature}</p>
                   </div>
                 );
@@ -185,7 +189,7 @@ export default function ToolRoute() {
             <div className="p-1 flex rounded-md bg-tab-background">
               {tool.installationSteps.linux && (
                 <div
-                  onClick={(_) => changeInstallationPlatform("linux")}
+                  onClick={() => changeInstallationPlatform("linux")}
                   className={`flex-1 p-1 rounded-sm ${
                     installationPlatform === "linux"
                       ? "bg-tab-foreground"
@@ -200,7 +204,7 @@ export default function ToolRoute() {
               )}
               {tool.installationSteps.macos && (
                 <div
-                  onClick={(_) => changeInstallationPlatform("macos")}
+                  onClick={() => changeInstallationPlatform("macos")}
                   className={`flex-1 p-1 rounded-sm ${
                     installationPlatform === "macos"
                       ? "bg-tab-foreground"
@@ -215,7 +219,7 @@ export default function ToolRoute() {
               )}
               {tool.installationSteps.windows && (
                 <div
-                  onClick={(_) => changeInstallationPlatform("windows")}
+                  onClick={() => changeInstallationPlatform("windows")}
                   className={`flex-1 p-1 rounded-sm ${
                     installationPlatform === "windows"
                       ? "bg-tab-foreground"

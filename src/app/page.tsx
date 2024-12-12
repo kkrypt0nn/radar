@@ -1,31 +1,28 @@
-import { BlocksIcon, ClockIcon, PlusIcon, SearchIcon } from "lucide-react";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { createSearchParams, useNavigate } from "react-router";
-import Button from "../components/Button";
-import LinkTile from "../components/LinkTile";
-import { config, NewCategory } from "../config";
-import { Category, Tool, tools } from "../data/tools";
+"use client";
 
-export default function Index() {
-  const navigate = useNavigate();
+import Button from "@/components/Button";
+import LinkTile from "@/components/LinkTile";
+import { config, NewCategory } from "@/config";
+import { Category, Tool, tools } from "@/data/tools";
+import { BlocksIcon, ClockIcon, PlusIcon, SearchIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+export default function IndexRoute() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
 
-  let uniqueCategories = Array.from(
+  const uniqueCategories = Array.from(
     new Set(tools.flatMap((tool: Tool) => tool.categories))
   ).sort((a, b) => a.localeCompare(b));
-  let recentlyAddedTools = tools
+  const recentlyAddedTools = tools
     .sort((a, b) => {
       return b.added.getTime() - a.added.getTime();
     })
     .slice(0, config.homeTotalRecentlyAddedTools);
 
   const performSearch = () => {
-    navigate({
-      pathname: "/tools",
-      search: createSearchParams({
-        q: searchQuery,
-      }).toString(),
-    });
+    router.push(`/tools?q=${encodeURIComponent(searchQuery)}`);
   };
   return (
     <>
@@ -70,8 +67,8 @@ export default function Index() {
         </div>
         <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
           {recentlyAddedTools.map((tool: Tool) => {
-            let toolPath = tool.name.toLowerCase().replace(" ", "-");
-            let toolLowerDate = new Date();
+            const toolPath = tool.name.toLowerCase().replace(" ", "-");
+            const toolLowerDate = new Date();
             toolLowerDate.setDate(
               toolLowerDate.getDate() - config.newToolLastDays
             );
@@ -107,7 +104,7 @@ export default function Index() {
         </div>
         <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
           {uniqueCategories.map((category: Category) => {
-            let isNew = config.newCategories?.some(
+            const isNew = config.newCategories?.some(
               (newCategory: NewCategory) => {
                 return (
                   newCategory.name == category &&
