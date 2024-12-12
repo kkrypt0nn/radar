@@ -1,6 +1,6 @@
-import InlineCodeblock from "../components/InlineCodeblock";
-import Link from "../components/Link";
-import SEO from "../components/SEO";
+import InlineCodeblock from "@/components/InlineCodeblock";
+import Link from "@/components/Link";
+import SEO from "@/components/SEO";
 
 export default function CodeOfConductRoute() {
   return (
@@ -70,7 +70,7 @@ export default function CodeOfConductRoute() {
             </li>
             <li>Public or private harassment</li>
             <li>
-              Publishing others' private information, such as a physical or
+              Publishing others&apos; private information, such as a physical or
               email address, without their explicit permission
             </li>
             <li>

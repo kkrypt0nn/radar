@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import Head from "next/head";
 
 type SEOProps = {
   title: string;
@@ -8,11 +8,11 @@ type SEOProps = {
 
 export default function SEO({ title, description, slug }: SEOProps) {
   return (
-    <Helmet>
+    <Head>
       <title>Radar | {title}</title>
       <meta property="og:title" content={`Radar | ${title}`} />
       <meta property="og:url" content={`https://radar.krypton.ninja${slug}`} />
       <meta property="og:description" content={description} />
-    </Helmet>
+    </Head>
   );
 }
